@@ -21,19 +21,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let mamiferos = Repository.local.mamiferos
 
+        //Creamos el ViewController que será el que tendra la delegacion de las tareas del SplitViewController y de TableViewController.
         let detailVC = DetailViewController(model: mamiferos[0])
         
+        //Creamos la tabla donde estaran todos los objetos a mostrar.
         let mainTableVC = MainTableViewController(model: mamiferos)
+        //Metemos la tabla dentro de un navigation, podemos hacer lo mismo con el controlador detalle si queremos
         let mainNavigationVC = UINavigationController(rootViewController: mainTableVC)
         
+        //Creamos el SplitViewcontroller y le metemos los controladores que queremos mostrar como principal y detallado.
         let mamiferosSplitVC = UISplitViewController()
-        
         mamiferosSplitVC.viewControllers = [mainNavigationVC,detailVC]
         
+        //Hacemos que el controlador detalle sea el delegado del split y de la tabla.
         mamiferosSplitVC.delegate = detailVC
+        mainTableVC.mainDelegate = detailVC
 
+        //Hacemos el controlador principal al splitVC
         window?.rootViewController = mamiferosSplitVC
-
         
         return true
     }

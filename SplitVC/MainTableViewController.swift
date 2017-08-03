@@ -8,7 +8,17 @@
 
 import UIKit
 
+
+//Creamos un protocolo que sera lo que queremos que suceda en nuestro caso que el delegado sepa quien le manda el objeto y que reciba un nuevo modelo.
+protocol MainTableViewControllerDelegate {
+    //Enviamos al delegado que va a recibir del controlador un objeto
+    func mainTableViewController (mainTableViewController:MainTableViewController, didSelecteModel: Mamiferos )
+}
+
 class MainTableViewController: UITableViewController {
+    
+    //Creamos la variable que hara que se pueda implementar el protocolo en otras clases.
+    var mainDelegate : MainTableViewControllerDelegate?
     
     let cellID = "MamiferosCell"
     let model : [Mamiferos]
@@ -56,8 +66,11 @@ class MainTableViewController: UITableViewController {
         
         let modelToVC = model[indexPath.row]
         
-        let detailVC = DetailViewController(model: modelToVC)
-        navigationController?.pushViewController(detailVC, animated: true)
+//        let detailVC = DetailViewController(model: modelToVC)
+//        navigationController?.pushViewController(detailVC, animated: true)
+        
+        //Implementamos el protocolo creado, haciendo que la tabla con el modelo que se ha seleccionado se mande al delegado, lo que haga el delegado con esa informacion es cosa suya.
+        self.mainDelegate?.mainTableViewController(mainTableViewController: self, didSelecteModel: modelToVC)
         
     }
     

@@ -8,7 +8,8 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UISplitViewControllerDelegate {
+//Implementamos los delegados del Split y de MainTable
+class DetailViewController: UIViewController, UISplitViewControllerDelegate, MainTableViewControllerDelegate {
     
     let mamiferos = Repository.local.mamiferos
     
@@ -18,7 +19,7 @@ class DetailViewController: UIViewController, UISplitViewControllerDelegate {
     
     @IBOutlet weak var descriptionLabelDetail: UILabel!
     
-    let model : Mamiferos
+    var model : Mamiferos
     
     init(model:Mamiferos) {
         self.model = model
@@ -49,6 +50,7 @@ class DetailViewController: UIViewController, UISplitViewControllerDelegate {
         navigationController?.pushViewController(animalesVC, animated: true)
     }
     
+    //Implementamos el protocolo de delegado para que al estar en horizontal se vean ambos controladores, el princicpal y el secundario.
     func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
         
         if self.splitViewController?.displayMode == UISplitViewControllerDisplayMode.primaryHidden{
@@ -56,6 +58,13 @@ class DetailViewController: UIViewController, UISplitViewControllerDelegate {
         }
         
     }
+    
+    //Implementamos el delegado de MainTable, haciendo que al tocar una de las celdas nosotros actualicemos el modelo que nos han pasado sincronizando tambien la vista.
+    func mainTableViewController (mainTableViewController:MainTableViewController, didSelecteModel: Mamiferos ){
+        self.model = didSelecteModel
+        self.syncModelWithView()
+    }
+
 }
 
 
